@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #121a24;
+  --muted: #5c6774;
+  --paper: #ebf0f4;
+  --paper-deep: #d5dde6;
+  --line: #b8c3cf;
+  --flag: #9b2c2c;
+  --flag-soft: #f3dede;
+  --ok: #1b5e45;
+  --surface: #f5f7f9;
+  --background: var(--paper);
+  --foreground: var(--ink);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-line: var(--line);
+  --color-flag: var(--flag);
+  --color-flag-soft: var(--flag-soft);
+  --color-ok: var(--ok);
+  --color-surface: var(--surface);
+  --font-sans: var(--font-source-sans);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-source-sans), "Source Sans 3", sans-serif;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes flag-pulse {
+  0%,
+  100% {
+    box-shadow: inset 3px 0 0 var(--flag);
+  }
+  50% {
+    box-shadow:
+      inset 3px 0 0 var(--flag),
+      0 0 0 4px color-mix(in srgb, var(--flag) 12%, transparent);
+  }
+}
+
+@keyframes slide-rule {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-rise {
+  animation: rise 0.7s ease-out both;
+}
+
+.animate-rise-delay {
+  animation: rise 0.7s ease-out 0.12s both;
+}
+
+.animate-rise-late {
+  animation: rise 0.7s ease-out 0.24s both;
+}
+
+.animate-flag {
+  animation: flag-pulse 2.6s ease-in-out infinite;
+}
+
+.animate-rule {
+  transform-origin: left;
+  animation: slide-rule 0.8s ease-out 0.35s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-rise-delay,
+  .animate-rise-late,
+  .animate-flag,
+  .animate-rule {
+    animation: none;
+  }
+}
