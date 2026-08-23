@@ -3,6 +3,8 @@ import { appendWaitlistEmail, isValidEmail } from "@/lib/waitlist";
 
 export const runtime = "nodejs";
 
+const SOURCE_RE = /^[a-z0-9_-]{1,32}$/;
+
 export async function POST(request: Request) {
   let body: unknown;
 
@@ -33,8 +35,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Email no válido." }, { status: 400 });
   }
 
+  let source: string | undefined;
+  if ("source" in body && (body as { source: unknown }).source != null) {
+    const raw = (body as { source: unknown }).source;
+    if (typeof raw !== "string" || !SOURCE_RE.test(raw)) {
+      return NextResponse.json(
+        { error: "Campo source no válido." },
+        { status: 400 },
+      );
+    }
+    source = raw;
+  }
+
   try {
-    const storedAt = await appendWaitlistEmail(email);
+    const storedAt = await appendWaitlistEmail(email, source);
     return NextResponse.json({ ok: true, storedAt });
   } catch (error) {
     const detail = error instanceof Error ? error.message : "unknown";

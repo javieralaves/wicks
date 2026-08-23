@@ -24,15 +24,24 @@ export function getWaitlistPath(): string {
   return path.join(process.cwd(), "data", "waitlist.jsonl");
 }
 
-export async function appendWaitlistEmail(email: string): Promise<string> {
+export async function appendWaitlistEmail(
+  email: string,
+  source?: string,
+): Promise<string> {
   const filePath = getWaitlistPath();
   const dir = path.dirname(filePath);
   await mkdir(dir, { recursive: true });
 
-  const line = `${JSON.stringify({
+  const entry: { email: string; at: string; source?: string } = {
     email,
     at: new Date().toISOString(),
-  })}\n`;
+  };
+
+  if (source) {
+    entry.source = source;
+  }
+
+  const line = `${JSON.stringify(entry)}\n`;
 
   await appendFile(filePath, line, "utf8");
   return filePath;
