@@ -5,6 +5,7 @@ One landing page per approved Wick day. Home (`/`) lists what has shipped; each 
 | Day | Route | What it is |
 | --- | --- | --- |
 | Casilla | [`/casilla`](./app/casilla) | Before Modelo 303, flag invoices that should not be 21% Spanish domestic VAT |
+| Insumo | [`/insumo`](./app/insumo) | Directory of report types — see required context, then generate |
 
 ## Run locally
 
@@ -22,7 +23,7 @@ npm start
 
 ## Waitlist (`POST /api/waitlist`)
 
-Body: `{ "email": "you@example.com" }`.
+Body: `{ "email": "you@example.com", "source": "insumo" }` (`source` optional).
 
 Emails are appended as JSON Lines:
 

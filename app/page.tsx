@@ -6,6 +6,12 @@ const days = [
     name: "Casilla",
     blurb: "Antes del Modelo 303, marca facturas que no son IVA 21% nacional.",
   },
+  {
+    slug: "insumo",
+    name: "Insumo",
+    blurb:
+      "A directory of report types — see the required context, then generate.",
+  },
 ] as const;
 
 export default function Home() {
@@ -17,7 +23,7 @@ export default function Home() {
           Días enviados
         </h1>
         <p className="mt-3 max-w-md text-base leading-relaxed text-muted">
-          Un producto por día aprobado. Hoy: Casilla.
+          Un producto por día aprobado. Hoy: Casilla y Insumo.
         </p>
       </header>
 
