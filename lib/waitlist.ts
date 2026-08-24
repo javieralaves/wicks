@@ -24,21 +24,41 @@ export function getWaitlistPath(): string {
   return path.join(process.cwd(), "data", "waitlist.jsonl");
 }
 
+export type WaitlistExtra = {
+  score?: number;
+  band?: string;
+};
+
 export async function appendWaitlistEmail(
   email: string,
   source?: string,
+  extra?: WaitlistExtra,
 ): Promise<string> {
   const filePath = getWaitlistPath();
   const dir = path.dirname(filePath);
   await mkdir(dir, { recursive: true });
 
-  const entry: { email: string; at: string; source?: string } = {
+  const entry: {
+    email: string;
+    at: string;
+    source?: string;
+    score?: number;
+    band?: string;
+  } = {
     email,
     at: new Date().toISOString(),
   };
 
   if (source) {
     entry.source = source;
+  }
+
+  if (extra?.score != null && Number.isFinite(extra.score)) {
+    entry.score = extra.score;
+  }
+
+  if (extra?.band) {
+    entry.band = extra.band;
   }
 
   const line = `${JSON.stringify(entry)}\n`;

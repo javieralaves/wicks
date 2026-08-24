@@ -6,6 +6,7 @@ One landing page per approved Wick day. Home (`/`) lists what has shipped; each 
 | --- | --- | --- |
 | Casilla | [`/casilla`](./app/casilla) | Before Modelo 303, flag invoices that should not be 21% Spanish domestic VAT |
 | Insumo | [`/insumo`](./app/insumo) | Directory of report types — see required context, then generate |
+| How Early | [`/how-early`](./app/how-early) | Job-changers catching up on AI — diagnostic score vs a reference range |
 
 ## Run locally
 
@@ -23,7 +24,7 @@ npm start
 
 ## Waitlist (`POST /api/waitlist`)
 
-Body: `{ "email": "you@example.com", "source": "insumo" }` (`source` optional).
+Body: `{ "email": "you@example.com", "source": "insumo" }` (`source` optional). How Early also sends `score` and `band`.
 
 Emails are appended as JSON Lines:
 

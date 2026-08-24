@@ -12,6 +12,12 @@ const days = [
     blurb:
       "A directory of report types — see the required context, then generate.",
   },
+  {
+    slug: "how-early",
+    name: "How Early",
+    blurb:
+      "Job-changers catching up on AI — score how early you are vs a reference range.",
+  },
 ] as const;
 
 export default function Home() {
@@ -23,7 +29,7 @@ export default function Home() {
           Días enviados
         </h1>
         <p className="mt-3 max-w-md text-base leading-relaxed text-muted">
-          Un producto por día aprobado. Hoy: Casilla y Insumo.
+          Un producto por día aprobado. Hoy: Casilla, Insumo y How Early.
         </p>
       </header>
 

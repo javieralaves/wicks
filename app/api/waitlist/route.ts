@@ -4,6 +4,7 @@ import { appendWaitlistEmail, isValidEmail } from "@/lib/waitlist";
 export const runtime = "nodejs";
 
 const SOURCE_RE = /^[a-z0-9_-]{1,32}$/;
+const BAND_RE = /^[a-z0-9 _-]{1,48}$/i;
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -47,8 +48,32 @@ export async function POST(request: Request) {
     source = raw;
   }
 
+  let score: number | undefined;
+  if ("score" in body && (body as { score: unknown }).score != null) {
+    const raw = (body as { score: unknown }).score;
+    if (typeof raw !== "number" || !Number.isFinite(raw) || raw < 0 || raw > 100) {
+      return NextResponse.json(
+        { error: "Campo score no válido." },
+        { status: 400 },
+      );
+    }
+    score = Math.round(raw);
+  }
+
+  let band: string | undefined;
+  if ("band" in body && (body as { band: unknown }).band != null) {
+    const raw = (body as { band: unknown }).band;
+    if (typeof raw !== "string" || !BAND_RE.test(raw.trim())) {
+      return NextResponse.json(
+        { error: "Campo band no válido." },
+        { status: 400 },
+      );
+    }
+    band = raw.trim();
+  }
+
   try {
-    const storedAt = await appendWaitlistEmail(email, source);
+    const storedAt = await appendWaitlistEmail(email, source, { score, band });
     return NextResponse.json({ ok: true, storedAt });
   } catch (error) {
     const detail = error instanceof Error ? error.message : "unknown";
